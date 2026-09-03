@@ -88,7 +88,6 @@ namespace ZeroAllocSurvival
             if (logPerformance)
                 _performanceLog = new PerformanceLogService(_world, performanceLogInterval);
 #if !DISABLE_LITHEECS_DIAGNOSTICS
-            _world.ResetWarmupProfile();
             _world.AllocationDiagnosticsEnabled = true;
             _world.ArchetypeCreatedLogger = Log;
             _world.TransitionCreatedLogger = Log;
