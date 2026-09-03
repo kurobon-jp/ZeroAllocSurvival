@@ -113,7 +113,9 @@ namespace ZeroAllocSurvival.Systems
             {
                 var pause = CommandBuffer.Spawn();
                 CommandBuffer.AddComponent(pause, default(GamePause));
+                CommandBuffer.RemoveComponent<Dead>(entity);
                 _gameOverPanel.SetVisible(true);
+                return;
             }
 
             foreach (var target in World.GetEntitiesWithTarget<Owner>(entity))

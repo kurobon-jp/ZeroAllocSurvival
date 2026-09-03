@@ -62,6 +62,7 @@ namespace ZeroAllocSurvival.Systems
                     .Add<Dead>()
                 )
             );
+
             World.ReserveArchetypeGroup(1, static group => group
                 .Common(static archetype => archetype
                     .Add<PhysicsPosition>()
@@ -70,39 +71,116 @@ namespace ZeroAllocSurvival.Systems
                     .Add<CharacterVisualFeedback>()
                     .Add<Link<UnityEngine.Transform>>()
                     .Add<BatchVisual>()
-                    .Add<SpatialGroup>()
-                    .Add<CrowdAgent>()
                     .Add<CharacterSlot>()
                     .Add<CharacterAnimationState>()
                     .Add<PlayerTag>()
                 )
-                .Add()
                 .Add(static archetype => archetype
+                    .Add<SpatialGroup>()
+                    .Add<CrowdAgent>()
+                )
+                .Add(static archetype => archetype
+                    .Add<SpatialGroup>()
+                    .Add<CrowdAgent>()
+                    .Add<AutopilotMovement>()
+                    .Add<PrimaryFireDirection>()
+                    .Add<PlayerProgress>()
+                    .Add<PlayerUpgradeLevels>()
+                )
+                .Add(static archetype => archetype
+                    .Add<SpatialGroup>()
+                    .Add<CrowdAgent>()
+                    .Add<AutopilotMovement>()
+                    .Add<PrimaryFireDirection>()
+                    .Add<PlayerProgress>()
+                    .Add<PlayerUpgradeLevels>()
+                    .Add<Dead>()
+                )
+                .Add(static archetype => archetype
+                    .Add<SpatialGroup>()
+                    .Add<CrowdAgent>()
                     .Add<Invincible>()
                 )
                 .Add(static archetype => archetype
+                    .Add<SpatialGroup>()
+                    .Add<CrowdAgent>()
                     .Add<Invincible>()
                     .Add<AutopilotMovement>()
                 )
                 .Add(static archetype => archetype
+                    .Add<SpatialGroup>()
+                    .Add<CrowdAgent>()
                     .Add<Invincible>()
                     .Add<AutopilotMovement>()
                     .Add<PrimaryFireDirection>()
                 )
                 .Add(static archetype => archetype
+                    .Add<SpatialGroup>()
+                    .Add<CrowdAgent>()
                     .Add<Invincible>()
                     .Add<AutopilotMovement>()
                     .Add<PrimaryFireDirection>()
                     .Add<PlayerProgress>()
                 )
                 .Add(static archetype => archetype
+                    .Add<SpatialGroup>()
+                    .Add<CrowdAgent>()
                     .Add<Invincible>()
                     .Add<AutopilotMovement>()
                     .Add<PrimaryFireDirection>()
                     .Add<PlayerProgress>()
                     .Add<PlayerUpgradeLevels>()
                 )
+                .Add(static archetype => archetype
+                    .Add<SpatialGroup>()
+                    .Add<CrowdAgent>()
+                    .Add<Invincible>()
+                    .Add<AutopilotMovement>()
+                    .Add<PrimaryFireDirection>()
+                    .Add<PlayerProgress>()
+                    .Add<PlayerUpgradeLevels>()
+                    .Add<Dead>()
+                )
             );
+
+            World.ReserveArchetypeGroup(1, static group => group
+                .Common(static archetype => archetype
+                    .Add<PhysicsPosition>()
+                    .Add<CollisionRadius>()
+                    .Add<CharacterState>()
+                    .Add<CharacterVisualFeedback>()
+                    .Add<Link<UnityEngine.Transform>>()
+                    .Add<BatchVisual>()
+                    .Add<CharacterSlot>()
+                    .Add<CharacterAnimationState>()
+                    .Add<PlayerTag>()
+                    .Add<AutopilotMovement>()
+                    .Add<PrimaryFireDirection>()
+                    .Add<PlayerProgress>()
+                    .Add<PlayerUpgradeLevels>()
+                )
+                .Add(static archetype => archetype
+                    .Add<SpatialGroup>()
+                    .Add<Dead>()
+                )
+                .Add(static archetype => archetype
+                    .Add<Dead>()
+                )
+                .Add()
+                .Add(static archetype => archetype
+                    .Add<Invincible>()
+                    .Add<SpatialGroup>()
+                    .Add<Dead>()
+                )
+                .Add(static archetype => archetype
+                    .Add<Invincible>()
+                    .Add<Dead>()
+                )
+                .Add(static archetype => archetype
+                    .Add<Invincible>()
+                )
+            );
+
             World.ReserveArchetypeGroup(1024, static group =>
             {
                 group.Add(static archetype => archetype
@@ -121,6 +199,9 @@ namespace ZeroAllocSurvival.Systems
                     .Add<LevelUp>()
                 );
                 group.Add(static archetype => archetype
+                    .Add<GamePause>()
+                );
+                group.Add(static archetype => archetype
                     .Add<LevelUp>()
                     .Add<GamePause>()
                 );
@@ -137,7 +218,6 @@ namespace ZeroAllocSurvival.Systems
             World.ReserveArchetype(5, static archetype => archetype
                 .Add<WeaponRuntime>()
             );
-
             World.ReserveArchetype(_capacity, static archetype => archetype
                 .Add<Damage>()
             );

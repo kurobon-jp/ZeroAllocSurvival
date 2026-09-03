@@ -30,14 +30,15 @@ namespace ZeroAllocSurvival.Services
 
         public void Begin()
         {
-            var path = Path.Combine(Application.persistentDataPath, "performance.csv");
-            _stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 4096,
+            var sessionId = DateTime.UtcNow.ToString("yyyyMMdd-HHmmss-fff");
+            var path = Path.Combine(Application.persistentDataPath, $"performance-{sessionId}.csv");
+            _stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Read, 4096,
                 FileOptions.SequentialScan);
 
             var header = Encoding.UTF8.GetBytes(Header);
             _stream.Write(header, 0, header.Length);
 
-            WriteEnvironmentFile();
+            WriteEnvironmentFile(sessionId);
             _writeBuffer = new byte[160];
         }
 
@@ -110,7 +111,7 @@ namespace ZeroAllocSurvival.Services
             return end;
         }
 
-        private static void WriteEnvironmentFile()
+        private static void WriteEnvironmentFile(string sessionId)
         {
             var environment =
                 "key,value\n" +
@@ -124,9 +125,10 @@ namespace ZeroAllocSurvival.Services
                 $"memory_mb,{SystemInfo.systemMemorySize}\n" +
                 $"gpu,{Escape(SystemInfo.graphicsDeviceName)}\n" +
                 $"graphics_api,{Escape(SystemInfo.graphicsDeviceType.ToString())}\n";
-            var path = Path.Combine(Application.persistentDataPath, "performance-environment.csv");
+            var path = Path.Combine(Application.persistentDataPath,
+                $"performance-environment-{sessionId}.csv");
             var bytes = Encoding.UTF8.GetBytes(environment);
-            using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read))
+            using (var stream = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.Read))
                 stream.Write(bytes, 0, bytes.Length);
         }
 

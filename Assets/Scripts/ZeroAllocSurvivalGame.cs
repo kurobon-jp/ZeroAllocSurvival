@@ -62,6 +62,7 @@ namespace ZeroAllocSurvival
         [SerializeField] private bool drawCrowdVelocityGizmos;
         [SerializeField, Min(0)] private int crowdAgentGizmoLimit = 512;
 
+        private int _startFrame;
         private World _world;
         private LocalAvoidanceSimulation _simulation;
         private LocalAvoidanceDiagnostics _crowdDiagnostics;
@@ -161,6 +162,7 @@ namespace ZeroAllocSurvival
 
         private void Start()
         {
+            _startFrame = Time.frameCount;
             fps.Initialize(_world);
             upgradePanel.Initialize(_world, _weaponRegistry);
             virtualPad.Initialize(_virtualStickInput);
@@ -210,7 +212,7 @@ namespace ZeroAllocSurvival
 
             var alloc = recorder.CurrentValue;
             recorder.Dispose();
-            if (Time.frameCount > 1)
+            if (Time.frameCount > _startFrame)
             {
                 fps.AddAlloc(alloc);
                 _performanceLog?.RecordFrame(Time.unscaledDeltaTime, alloc);
