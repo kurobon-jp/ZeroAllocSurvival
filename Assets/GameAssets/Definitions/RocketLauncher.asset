@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d1f97e5928d4a53a76ca1858926f700, type: 3}
+  m_Name: RocketLauncher
+  m_EditorClassIdentifier: Assembly-CSharp::ZeroAllocSurvival.Definitions.WeaponDefinition
+  weaponPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8796331940858740939, guid: 36a18da1e18e89340bc2320f6b7c586e, type: 3}
+  bulletPrewarmCount: 64
+  impactPrefab: {fileID: 4200000000000000001, guid: 7f131f20869342a980977255297512dd, type: 3}
+  impactPrewarmCount: 32
+  impactRadius: 6
+  impactDuration: 0.5
+  impactDamageDelay: 0.1
+  firePattern: 0
+  deliveryType: 2
+  impactType: 1
+  motionType: 0
+  projectileHitsEnemies: 1
+  damage: 35
+  knockback: 0
+  interval: 2
+  range: 30
+  projectileCount: 1
+  spread: 0
+  projectileSpeed: 8
+  projectileLifetime: 3
+  projectileAngularSpeed: 0
+  projectileRadius: 0.8
+  tickInterval: 0
+  penetration: 1
+  reflections: 0
+  orbitRadius: 0
+  orbitAngularSpeed: 0
+  repeatHitInterval: 0.25

@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d1f97e5928d4a53a76ca1858926f700, type: 3}
+  m_Name: Reflect
+  m_EditorClassIdentifier: Assembly-CSharp::ZeroAllocSurvival.Definitions.WeaponDefinition
+  weaponPrefab: {fileID: -609262965190931319, guid: 414b2919a902b274990b953c13e4082b, type: 3}
+  bulletPrefab: {fileID: 3095876959316098605, guid: a9fd2b64ccaaeac46b586c3ea53ed45d, type: 3}
+  bulletPrewarmCount: 512
+  impactPrefab: {fileID: 0}
+  impactPrewarmCount: 16
+  impactDuration: 0.25
+  impactDamageDelay: 0
+  firePattern: 1
+  deliveryType: 2
+  impactType: 0
+  motionType: 0
+  projectileHitsEnemies: 1
+  damage: 20
+  knockback: 0
+  interval: 0.8
+  range: 100
+  projectileCount: 1
+  spread: 35
+  projectileSpeed: 50
+  projectileLifetime: 10
+  projectileAngularSpeed: 0
+  projectileRadius: 0.6
+  impactRadius: 0.5
+  tickInterval: 10
+  penetration: 1
+  reflections: 10
+  orbitRadius: 3
+  orbitAngularSpeed: 180
+  repeatHitInterval: 0.25

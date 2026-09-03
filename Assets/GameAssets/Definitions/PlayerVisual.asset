@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b853739d94394edbab2b40a81b63ea9f, type: 3}
+  m_Name: PlayerVisual
+  atlasTexture: {fileID: 2800000, guid: e93fc56392886c94fb4acc06dfc67550, type: 3}
+  visualOffset: {x: 0, y: 0.6, z: 0}
+  visualScale: {x: 3.072, y: 3.072, z: 1}
+  columns: 4
+  rows: 6
+  atlasColumns: 4
+  atlasRows: 6
+  atlasColumnOffset: 0
+  atlasRowOffset: 0
+  idle: {startFrame: 0, frameCount: 6, fps: 6}
+  walk: {startFrame: 6, frameCount: 8, fps: 10}
+  dead: {startFrame: 14, frameCount: 10, fps: 12}
+  guaranteeEveryFrame: 1

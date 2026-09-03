@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c581465ce26b46ffa86b814788291965, type: 3}
+  m_Name: SandboxEnemyWaveSequence
+  m_EditorClassIdentifier: 
+  intervalBetweenWaves: 5
+  loop: 0
+  waves:
+  - name: Wave 1
+    infiniteDuration: 0
+    duration: 10
+    spawnInterval: 0.1
+    spawnCount: 1
+    maximumAliveEnemies: 1
+    healthMultiplier: 1
+    attackMultiplier: 1
+    moveSpeedMultiplier: 1
+    experienceMultiplier: 1
+    targetAliveCatchUpRate: 0
+    maximumSpawnCount: 1
+    candidates:
+    - definition: {fileID: 11400000, guid: bbcc0000000000000000000000000001, type: 2}
+      weight: 1
+  - name: Final Wave
+    infiniteDuration: 1
+    duration: 60
+    spawnInterval: 0.001
+    spawnCount: 5
+    maximumAliveEnemies: 10000
+    healthMultiplier: 2.4414062
+    attackMultiplier: 1.4641
+    moveSpeedMultiplier: 1.2
+    experienceMultiplier: 1.22
+    targetAliveCatchUpRate: 0.05
+    maximumSpawnCount: 500
+    candidates:
+    - definition: {fileID: 11400000, guid: bbcc0000000000000000000000000002, type: 2}
+      weight: 2
+    - definition: {fileID: 11400000, guid: bbcc0000000000000000000000000003, type: 2}
+      weight: 3
+    - definition: {fileID: 11400000, guid: bbcc0000000000000000000000000004, type: 2}
+      weight: 2

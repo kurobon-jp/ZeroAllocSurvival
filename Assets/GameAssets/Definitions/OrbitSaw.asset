@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d1f97e5928d4a53a76ca1858926f700, type: 3}
+  m_Name: OrbitSaw
+  m_EditorClassIdentifier: Assembly-CSharp::ZeroAllocSurvival.Definitions.WeaponDefinition
+  weaponPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 8796331940858740939, guid: 2154e85491c89cd4db79a2abd7207760, type: 3}
+  bulletPrewarmCount: 64
+  impactPrefab: {fileID: 0}
+  impactPrewarmCount: 16
+  impactDuration: 0.25
+  impactDamageDelay: 0
+  firePattern: 0
+  deliveryType: 2
+  impactType: 0
+  motionType: 1
+  projectileHitsEnemies: 1
+  damage: 2
+  knockback: 24
+  interval: 2
+  range: 100
+  projectileCount: 2
+  spread: 0
+  projectileSpeed: 0.01
+  projectileLifetime: 8
+  projectileAngularSpeed: 0
+  projectileRadius: 1.2
+  impactRadius: 0.5
+  tickInterval: 0.5
+  penetration: 1
+  reflections: 0
+  orbitRadius: 3
+  orbitAngularSpeed: 180
+  repeatHitInterval: 0.25
