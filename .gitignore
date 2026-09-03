@@ -6,7 +6,7 @@
 
 # 3. バージョン管理に含めたいファイルを指定
 !/.gitignore
-!/README.md
+!/README.*
 !Assets/**
 !Packages/**
 !ProjectSettings/**

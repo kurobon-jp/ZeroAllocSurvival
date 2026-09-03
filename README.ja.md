@@ -1,30 +1,30 @@
 # Zero Alloc Survival
 
-[日本語](README.ja.md)
+[English](README.md)
 
-Zero Alloc Survival is a survival game for testing [LitheEcs](https://github.com/kurobon-jp/LitheEcs) and [LocalAvoidance2D](https://github.com/kurobon-jp/LocalAvoidance2D) under high-load conditions close to those of a real game. It aims for 0 B/frame of managed allocations during steady-state execution after warmup.
+Zero Alloc Survivalは、[LitheEcs](https://github.com/kurobon-jp/LitheEcs)と[LocalAvoidance2D](https://github.com/kurobon-jp/LocalAvoidance2D)を実ゲームに近い高負荷環境で検証するサバイバルゲームです。
+また、Warmup後の定常実行でManaged Alloc 0 B/frame達成を目指します。
 
-It combines LitheEcs with Burst/Jobs-based 2D local avoidance and batched rendering to evaluate API design, runtime behavior, Unity integration, and performance with large numbers of entities.
+LitheEcsにBurst/Jobsベースの2Dローカル回避とバッチ描画を組み合わせ、API設計、Runtime挙動、Unity連携、多数Entity実行時のPerformanceを評価します。
 
-Some resources are preallocated and warmed up at startup.
-
-This is a technical validation project. It does not claim that managed allocations should be eliminated completely from every Unity game.
+このプロジェクトは技術検証用であり、すべてのUnityゲームでManaged Allocを完全になくすべきだと主張するものではありません。
 
 https://github.com/user-attachments/assets/1b777fcd-7688-4645-9b2b-a8892b8b8ca7
 
-## Requirements
+## 必要環境
 
 - Unity `6000.5.1f1`
-- A platform supported by Unity Burst and Collections
+- Unity BurstおよびCollectionsが対応するプラットフォーム
 
-## Evaluation Conditions
+## 評価条件
 
-Evaluating zero-allocation behavior requires an IL2CPP Development Build with `Development Build` enabled. Mono builds and the Unity Editor do not represent the zero-allocation conditions targeted by this project.
+0 Allocの評価には、`Development Build`を有効にしたIL2CPP Development Buildが必須です。
+Mono BuildおよびUnity Editorでは、このプロジェクトが対象とする0 Alloc状態にはなりません。
 
-## Performance
+## パフォーマンス
 
-- Measures enemy count, average FPS, average allocations per frame, total allocations during the interval, and frame count every five seconds by default
-- Maximum number of spawned enemies: `10,000`
+- 既定5秒ごとに、敵数、平均FPS、平均Alloc/Frame、区間Alloc合計、フレーム数を計測
+- 最大敵出現数 `10,000`
 
 ### Galaxy S23
 
@@ -40,9 +40,7 @@ Evaluating zero-allocation behavior requires an IL2CPP Development Build with `D
 | memory_mb | 7072 |
 | gpu | Adreno (TM) 740 |
 | graphics_api | Vulkan |
-
 ---
-
 | elapsed_seconds | enemies | fps | alloc_bytes_per_frame | alloc_bytes_total | frames |
 | --- | --- | --- | --- | --- | --- |
 | 5.00 | 48 | 57.4 | 0 | 0 | 287 |
