@@ -31,7 +31,6 @@ namespace ZeroAllocSurvival.Services
         public void Begin()
         {
             var path = Path.Combine(Application.persistentDataPath, "performance.csv");
-            Debug.Log(path);
             _stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.Read, 4096,
                 FileOptions.SequentialScan);
 
