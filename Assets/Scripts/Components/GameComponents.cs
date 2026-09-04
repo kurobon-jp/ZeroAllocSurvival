@@ -143,17 +143,6 @@ namespace ZeroAllocSurvival.Components
         public int Value;
     }
 
-    /// <summary>
-    /// Burst-computed enemy steering. Physics application is intentionally handled by a separate system so
-    /// expensive PhysicsBody property writes can run at a lower frequency than the steering calculation.
-    /// </summary>
-    internal struct EnemySteering
-    {
-        public Vector2 DesiredVelocity;
-        public Vector2 CurrentVelocity;
-        public byte RequiresImmediateApply;
-    }
-
     /// <summary>Shared LocalAvoidance agent state for both the player and enemies.</summary>
     internal struct CrowdAgent
     {
@@ -194,7 +183,6 @@ namespace ZeroAllocSurvival.Components
     /// <summary>Emitted once when two entities stop touching.</summary>
     public struct ContactExited
     {
-        public Entity Source;
         public Entity Other;
     }
 

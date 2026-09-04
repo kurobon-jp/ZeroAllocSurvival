@@ -22,7 +22,7 @@ namespace ZeroAllocSurvival.Systems
         private readonly float _jitterThreshold;
         private BurstQuery<PhysicsPosition, CrowdAgent, CharacterSlot> _query;
 
-        private LocalAvoidanceSimulation _simulation;
+        private readonly　LocalAvoidanceSimulation _simulation;
         private readonly LocalAvoidanceDiagnostics _diagnostics;
         private NativeArray<EntityId> _entitiesBySlot;
         private NativeArray<EntityId> _previousEntitiesBySlot;
@@ -268,7 +268,6 @@ namespace ZeroAllocSurvival.Systems
                 var exited = CommandBuffer.Spawn();
                 CommandBuffer.AddComponent(exited, new ContactExited
                 {
-                    Source = aIsEnemy ? b : a,
                     Other = aIsEnemy ? a : b
                 });
             }

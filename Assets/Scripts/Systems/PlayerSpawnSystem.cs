@@ -20,17 +20,20 @@ namespace ZeroAllocSurvival.Systems
 
         void IInitializable.Initialize()
         {
-            var playerEntity = Spawn(Vector3.zero, false, _definition);
-            if (_invincible) playerEntity.Add(default(Invincible));
-            playerEntity.Add(new AutopilotMovement());
-            playerEntity.Add(new PrimaryFireDirection { Value = Vector2.up });
-            playerEntity.Add(new PlayerProgress { Level = 1, RequiredExperience = 5 });
-            var state = playerEntity.Get<CharacterState>();
-            playerEntity.Add(new PlayerUpgradeLevels
+            var parameters = _definition.Parameters;
+            using (World.BeginStructuralBatch())
             {
-                BaseMoveSpeed = state.MoveSpeed,
-                BaseMaxHealth = state.MaxHealth
-            });
+                var playerEntity = Spawn(Vector3.zero, false, _definition);
+                if (_invincible) playerEntity.Add(default(Invincible));
+                playerEntity.Add(new AutopilotMovement());
+                playerEntity.Add(new PrimaryFireDirection { Value = Vector2.up });
+                playerEntity.Add(new PlayerProgress { Level = 1, RequiredExperience = 5 });
+                playerEntity.Add(new PlayerUpgradeLevels
+                {
+                    BaseMoveSpeed = parameters.moveSpeed,
+                    BaseMaxHealth = parameters.health
+                });
+            }
         }
     }
 }

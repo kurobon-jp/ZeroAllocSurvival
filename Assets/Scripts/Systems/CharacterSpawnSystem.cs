@@ -31,7 +31,6 @@ namespace ZeroAllocSurvival.Systems
             }
 
             var entity = World.Spawn();
-            using (World.BeginStructuralBatch())
             {
                 entity.Add(
                     new PhysicsPosition { Value = position },
@@ -97,8 +96,7 @@ namespace ZeroAllocSurvival.Systems
                     entity.Add(
                         default(EnemyTag),
                         new ContactAttack { Interval = Mathf.Max(.01f, parameters.contactDamageInterval) },
-                        new ExperienceReward { Value = definition != null ? definition.ExperienceReward : 1 },
-                        default(EnemySteering)
+                        new ExperienceReward { Value = definition != null ? definition.ExperienceReward : 1 }
                     );
                 }
                 else

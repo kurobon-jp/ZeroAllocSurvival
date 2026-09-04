@@ -114,7 +114,9 @@ namespace ZeroAllocSurvival.Systems
         private void SpawnEnemy(Vector3 position, CharacterSpawnCandidate[] candidates,
             EnemyWaveDefinition wave = null)
         {
-            var entity = Spawn(position, true, SelectDefinition(candidates));
+            Entity entity;
+            using (World.BeginStructuralBatch())
+                entity = Spawn(position, true, SelectDefinition(candidates));
             if (wave != null) ApplyWaveScaling(entity, wave);
         }
 
