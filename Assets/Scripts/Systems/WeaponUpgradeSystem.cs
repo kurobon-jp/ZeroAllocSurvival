@@ -1,6 +1,7 @@
 using LitheEcs;
 using UnityEngine;
 using ZeroAllocSurvival.Components;
+using ZeroAllocSurvival.Presentation;
 using ZeroAllocSurvival.Services;
 
 namespace ZeroAllocSurvival.Systems
@@ -10,9 +11,15 @@ namespace ZeroAllocSurvival.Systems
         private const int MaxLevel = 5;
 
         private readonly WeaponRegistry _weapons;
+        private readonly GaugePresenter _hpGauge;
         private Entity _player;
 
-        public WeaponUpgradeSystem(World world, WeaponRegistry weapons) : base(world) => _weapons = weapons;
+        public WeaponUpgradeSystem(World world, WeaponRegistry weapons, GaugePresenter hpGauge) : base(world)
+        {
+            _weapons = weapons;
+            _hpGauge = hpGauge;
+        }
+
         protected override void OnPostInitialize() => _player = World.Singleton<PlayerTag>();
         protected override void OnPostTick() => CommandBuffer.Playback();
 
@@ -91,6 +98,7 @@ namespace ZeroAllocSurvival.Systems
                     levels.MaxHealth++;
                     state.MaxHealth = levels.BaseMaxHealth * (1f + levels.MaxHealth * .2f);
                     state.Health = state.MaxHealth;
+                    _hpGauge.SetProgress(state.Health, state.MaxHealth);
                     break;
                 case PlayerStatKind.AttackPower when levels.AttackPower < MaxLevel:
                     levels.AttackPower++;

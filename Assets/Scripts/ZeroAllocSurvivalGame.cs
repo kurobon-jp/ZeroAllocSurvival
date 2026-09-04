@@ -153,7 +153,7 @@ namespace ZeroAllocSurvival
             _systems.Add(new ExperienceCollectSystem(_world));
             _systems.Add(new ExperienceGaugeSystem(_world, expGauge));
             _systems.Add(new LevelUpSystem(_world, upgradePanel, _weaponRegistry));
-            _systems.Add(new WeaponUpgradeSystem(_world, _weaponRegistry));
+            _systems.Add(new WeaponUpgradeSystem(_world, _weaponRegistry, hpGauge));
             _systems.Add(new PlayerTransformSystem(_world));
             _systems.Add(new GamePauseSystem(_world));
             _systems.Add(new CameraFollowSystem(_world, gameCamera, cameraOffset,
