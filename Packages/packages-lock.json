@@ -21,13 +21,6 @@
       },
       "hash": "997a2ffdc92db74605d9cb9d25245449736d10a7"
     },
-    "com.github.kurobon.prefab_preview": {
-      "version": "https://github.com/kurobon-jp/PrefabPreview.git?path=Assets/",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "87757bb6473b1a3d004f2899ec3d4c785bcb921e"
-    },
     "com.unity.2d.animation": {
       "version": "15.1.0",
       "depth": 1,
