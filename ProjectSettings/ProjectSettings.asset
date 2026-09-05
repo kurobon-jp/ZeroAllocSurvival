@@ -534,6 +534,9 @@ PlayerSettings:
   - m_BuildTarget: Standalone
     m_StaticBatching: 1
     m_DynamicBatching: 0
+  - m_BuildTarget: iPhone
+    m_StaticBatching: 1
+    m_DynamicBatching: 0
   m_BuildTargetShaderSettings: []
   m_BuildTargetGraphicsJobs: []
   m_BuildTargetGraphicsJobMode: []
@@ -567,6 +570,9 @@ PlayerSettings:
   m_BuildTargetDefaultTextureCompressionFormat:
   - serializedVersion: 3
     m_BuildTarget: Android
+    m_Formats: 03000000
+  - serializedVersion: 3
+    m_BuildTarget: iOS
     m_Formats: 03000000
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
@@ -838,6 +844,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     Android: DISABLE_LITHEECS_VALIDATION;DISABLE_LITHEECS_DIAGNOSTICS
     Standalone: DISABLE_LITHEECS_VALIDATION;DISABLE_LITHEECS_DIAGNOSTICS
+    iPhone: DISABLE_LITHEECS_VALIDATION;DISABLE_LITHEECS_DIAGNOSTICS
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
