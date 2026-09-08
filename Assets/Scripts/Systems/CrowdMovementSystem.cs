@@ -169,7 +169,8 @@ namespace ZeroAllocSurvival.Systems
                              math.lengthsq(_previousPlayerMotion) >= thresholdSqr &&
                              math.dot(motion, _previousPlayerMotion) < 0f &&
                              math.dot(desired, _previousPlayerDesiredVelocity) >= 0f;
-            var contact = _simulation.Contacts[slot];
+                var contact = _simulation.Contacts[slot];
+                var constraint = _diagnostics.ConstraintDetails[slot];
             var dominantTrace = contact.HasConstraint != 0 && contact.ConstraintIsDominant != 0;
 
             if (correctionFlip || motionFlip || dominantTrace)
@@ -190,7 +191,7 @@ namespace ZeroAllocSurvival.Systems
                     ? math.distance(after, _simulation.ResolvedPositions[selected])
                     : -1f;
                 _jitterWriter?.WriteLine(FormattableString.Invariant(
-                    $"{Time.frameCount},{Time.unscaledTime:F6},{deltaTime:F6},{slot},{(correctionFlip ? 1 : 0)},{(motionFlip ? 1 : 0)},{(dominantTrace ? 1 : 0)},{contact.AgentContactCount},{contact.ObstacleContactCount},{before.x:F6},{before.y:F6},{moved.x:F6},{moved.y:F6},{after.x:F6},{after.y:F6},{motion.x:F6},{motion.y:F6},{desired.x:F6},{desired.y:F6},{inputVelocity.x:F6},{inputVelocity.y:F6},{outputVelocity.x:F6},{outputVelocity.y:F6},{correction.x:F6},{correction.y:F6},{_previousPlayerCorrection.x:F6},{_previousPlayerCorrection.y:F6},{selected},{contact.ConstraintOtherMass:F6},{contact.ConstraintOtherRadius:F6},{contact.ConstraintIsDominant},{centerDistance:F6},{contact.ConstraintPenetration:F6},{contact.CorrectionLimit:F6},{previousConstraintNormal.x:F6},{previousConstraintNormal.y:F6},{previousAllowedNormalSpeed:F6},{desiredBeforeConstraint.x:F6},{desiredBeforeConstraint.y:F6},{desiredAfterConstraint.x:F6},{desiredAfterConstraint.y:F6},{constraintApplied},{firstSolverCorrection.x:F6},{firstSolverCorrection.y:F6},{lastSolverCorrection.x:F6},{lastSolverCorrection.y:F6}"));
+                    $"{Time.frameCount},{Time.unscaledTime:F6},{deltaTime:F6},{slot},{(correctionFlip ? 1 : 0)},{(motionFlip ? 1 : 0)},{(dominantTrace ? 1 : 0)},{contact.AgentContactCount},{contact.ObstacleContactCount},{before.x:F6},{before.y:F6},{moved.x:F6},{moved.y:F6},{after.x:F6},{after.y:F6},{motion.x:F6},{motion.y:F6},{desired.x:F6},{desired.y:F6},{inputVelocity.x:F6},{inputVelocity.y:F6},{outputVelocity.x:F6},{outputVelocity.y:F6},{correction.x:F6},{correction.y:F6},{_previousPlayerCorrection.x:F6},{_previousPlayerCorrection.y:F6},{selected},{constraint.OtherMass:F6},{constraint.OtherRadius:F6},{contact.ConstraintIsDominant},{centerDistance:F6},{constraint.Penetration:F6},{constraint.CorrectionLimit:F6},{previousConstraintNormal.x:F6},{previousConstraintNormal.y:F6},{previousAllowedNormalSpeed:F6},{desiredBeforeConstraint.x:F6},{desiredBeforeConstraint.y:F6},{desiredAfterConstraint.x:F6},{desiredAfterConstraint.y:F6},{constraintApplied},{firstSolverCorrection.x:F6},{firstSolverCorrection.y:F6},{lastSolverCorrection.x:F6},{lastSolverCorrection.y:F6}"));
                 _jitterRecordCount++;
                 if ((_jitterRecordCount & 31) == 0) _jitterWriter?.Flush();
             }

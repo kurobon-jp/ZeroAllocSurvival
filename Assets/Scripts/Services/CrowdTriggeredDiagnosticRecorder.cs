@@ -77,11 +77,12 @@ namespace ZeroAllocSurvival.Services
             {
                 var active = simulation.Active[slot];
                 var contact = simulation.Contacts[slot];
+                var constraint = diagnostics.ConstraintDetails[slot];
                 if (active != 0)
                 {
                     activeCount++;
                     if (contact.AgentContactCount >= 10) saturatedCount++;
-                    maximumPenetration = math.max(maximumPenetration, contact.ConstraintPenetration);
+                    maximumPenetration = math.max(maximumPenetration, constraint.Penetration);
                     var correction = simulation.ResolvedPositions[slot] - simulation.MovedPositions[slot];
                     if (!_triggered && slot == playerSlot)
                     {
@@ -93,7 +94,7 @@ namespace ZeroAllocSurvival.Services
                                        JitterCorrectionThreshold * JitterCorrectionThreshold &&
                                        math.dot(correction, previousCorrection) < 0f;
                         playerMovingPenetration = simulation.DirectControl[slot] != 0 &&
-                                                  contact.ConstraintPenetration >=
+                                                  constraint.Penetration >=
                                                   PlayerMovingPenetrationThreshold;
                     }
                     var nearCenter = slot != playerSlot &&
@@ -133,7 +134,7 @@ namespace ZeroAllocSurvival.Services
                     else _centerResidenceFrames[slot] = 0;
                     if (!_triggered && penetrationTriggerSlot < 0 && nearCenter &&
                         contact.AgentContactCount >= TriggerContacts &&
-                        contact.ConstraintPenetration >= TriggerPenetration)
+                        constraint.Penetration >= TriggerPenetration)
                         penetrationTriggerSlot = slot;
                     _previousCorrections[slot] = correction;
                     _hasPreviousCorrection[slot] = 1;
@@ -143,6 +144,7 @@ namespace ZeroAllocSurvival.Services
                     _hasPreviousCorrection[slot] = 0;
                     _centerResidenceFrames[slot] = 0;
                 }
+                var priorityContacts = diagnostics.PriorityContactCounts[slot];
                 _history[historyOffset + slot] = new AgentFrame
                 {
                     Frame = Time.frameCount,
@@ -156,13 +158,13 @@ namespace ZeroAllocSurvival.Services
                     OutputVelocity = simulation.ResolvedVelocities[slot],
                     Contacts = contact.AgentContactCount,
                     BlockingContacts = contact.BlockingAgentContactCount,
-                    Priority0Contacts = contact.Priority0ContactCount,
-                    Priority1Contacts = contact.Priority1ContactCount,
-                    Priority2Contacts = contact.Priority2ContactCount,
+                    LowerPriorityContacts = priorityContacts.Lower,
+                    EqualPriorityContacts = priorityContacts.Equal,
+                    HigherPriorityContacts = priorityContacts.Higher,
                     CenterResidenceFrames = _centerResidenceFrames[slot],
                     PlayerDistance = math.distance(playerPosition, simulation.ResolvedPositions[slot]),
                     SelectedAgent = contact.ConstraintAgentIndex,
-                    Penetration = contact.ConstraintPenetration,
+                    Penetration = constraint.Penetration,
                     CandidateChecks = diagnostics.CandidateChecks[slot],
                     CandidateLimitReached = diagnostics.CandidateLimitReached[slot],
                     RetainedNeighbors = diagnostics.RetainedNeighborCounts[slot],
@@ -239,7 +241,7 @@ namespace ZeroAllocSurvival.Services
                 triggerWriter.WriteLine($"TriggerSlot={triggerSlot}");
                 triggerWriter.WriteLine($"TriggerAvoidancePriority={simulation.AvoidancePriorities[triggerSlot]}");
             }
-            _agents.WriteLine("phase,frame,time,deltaTime,slot,active,avoidancePriority,beforeX,beforeY,movedX,movedY,afterX,afterY,desiredX,desiredY,inputVX,inputVY,outputVX,outputVY,contacts,blockingContacts,priority0Contacts,priority1Contacts,priority2Contacts,centerResidenceFrames,playerDistance,selectedAgent,penetration,candidateChecks,candidateLimitReached,retainedNeighbors,sameCellCandidateChecks");
+            _agents.WriteLine("phase,frame,time,deltaTime,slot,active,avoidancePriority,beforeX,beforeY,movedX,movedY,afterX,afterY,desiredX,desiredY,inputVX,inputVY,outputVX,outputVY,contacts,blockingContacts,lowerPriorityContacts,equalPriorityContacts,higherPriorityContacts,centerResidenceFrames,playerDistance,selectedAgent,penetration,candidateChecks,candidateLimitReached,retainedNeighbors,sameCellCandidateChecks");
             _solver.WriteLine("frame,slot,iteration,positionX,positionY,correctionX,correctionY");
             _neighbors.WriteLine("frame,slot,neighborSlot,distance,surfaceDistance,penetration,normalX,normalY,neighborRadius,neighborMass,neighborAvoidancePriority");
             _cachedNeighbors.WriteLine("frame,slot,cacheIndex,neighborSlot,distance,surfaceDistance,penetration,neighborAvoidancePriority");
@@ -293,6 +295,8 @@ namespace ZeroAllocSurvival.Services
             {
                 var slot = _tracked[i];
                 var c = simulation.Contacts[slot];
+                var priorityContacts = diagnostics.PriorityContactCounts[slot];
+                var constraint = diagnostics.ConstraintDetails[slot];
                 WriteAgent(new AgentFrame
                 {
                     Frame = frame, Time = Time.unscaledTime, DeltaTime = Time.deltaTime,
@@ -301,12 +305,12 @@ namespace ZeroAllocSurvival.Services
                     InputVelocity = simulation.CurrentVelocities[slot],
                     OutputVelocity = simulation.ResolvedVelocities[slot], Contacts = c.AgentContactCount,
                     BlockingContacts = c.BlockingAgentContactCount,
-                    Priority0Contacts = c.Priority0ContactCount,
-                    Priority1Contacts = c.Priority1ContactCount,
-                    Priority2Contacts = c.Priority2ContactCount,
+                    LowerPriorityContacts = priorityContacts.Lower,
+                    EqualPriorityContacts = priorityContacts.Equal,
+                    HigherPriorityContacts = priorityContacts.Higher,
                     CenterResidenceFrames = _centerResidenceFrames[slot],
                     PlayerDistance = math.distance(playerPosition, simulation.ResolvedPositions[slot]),
-                    SelectedAgent = c.ConstraintAgentIndex, Penetration = c.ConstraintPenetration,
+                    SelectedAgent = c.ConstraintAgentIndex, Penetration = constraint.Penetration,
                     CandidateChecks = diagnostics.CandidateChecks[slot],
                     CandidateLimitReached = diagnostics.CandidateLimitReached[slot],
                     RetainedNeighbors = diagnostics.RetainedNeighborCounts[slot],
@@ -318,7 +322,7 @@ namespace ZeroAllocSurvival.Services
         }
 
         private void WriteAgent(AgentFrame s, int slot, bool pre) => _agents.WriteLine(FormattableString.Invariant(
-            $"{(pre ? "pre" : "post")},{s.Frame},{s.Time:F6},{s.DeltaTime:F6},{slot},{s.Active},{s.AvoidancePriority},{s.Before.x:F6},{s.Before.y:F6},{s.Moved.x:F6},{s.Moved.y:F6},{s.After.x:F6},{s.After.y:F6},{s.Desired.x:F6},{s.Desired.y:F6},{s.InputVelocity.x:F6},{s.InputVelocity.y:F6},{s.OutputVelocity.x:F6},{s.OutputVelocity.y:F6},{s.Contacts},{s.BlockingContacts},{s.Priority0Contacts},{s.Priority1Contacts},{s.Priority2Contacts},{s.CenterResidenceFrames},{s.PlayerDistance:F6},{s.SelectedAgent},{s.Penetration:F6},{s.CandidateChecks},{s.CandidateLimitReached},{s.RetainedNeighbors},{s.SameCellCandidateChecks}"));
+            $"{(pre ? "pre" : "post")},{s.Frame},{s.Time:F6},{s.DeltaTime:F6},{slot},{s.Active},{s.AvoidancePriority},{s.Before.x:F6},{s.Before.y:F6},{s.Moved.x:F6},{s.Moved.y:F6},{s.After.x:F6},{s.After.y:F6},{s.Desired.x:F6},{s.Desired.y:F6},{s.InputVelocity.x:F6},{s.InputVelocity.y:F6},{s.OutputVelocity.x:F6},{s.OutputVelocity.y:F6},{s.Contacts},{s.BlockingContacts},{s.LowerPriorityContacts},{s.EqualPriorityContacts},{s.HigherPriorityContacts},{s.CenterResidenceFrames},{s.PlayerDistance:F6},{s.SelectedAgent},{s.Penetration:F6},{s.CandidateChecks},{s.CandidateLimitReached},{s.RetainedNeighbors},{s.SameCellCandidateChecks}"));
 
         private void WriteSolverAndNeighbors(LocalAvoidanceSimulation simulation,
             LocalAvoidanceDiagnostics diagnostics, int frame)
@@ -427,8 +431,8 @@ namespace ZeroAllocSurvival.Services
 
         private struct AgentFrame
         {
-            public int Frame, Contacts, BlockingContacts, Priority0Contacts, Priority1Contacts,
-                Priority2Contacts, CenterResidenceFrames, SelectedAgent, CandidateChecks,
+            public int Frame, Contacts, BlockingContacts, LowerPriorityContacts, EqualPriorityContacts,
+                HigherPriorityContacts, CenterResidenceFrames, SelectedAgent, CandidateChecks,
                 RetainedNeighbors, SameCellCandidateChecks;
             public float Time, DeltaTime, Penetration, PlayerDistance;
             public byte AvoidancePriority;
