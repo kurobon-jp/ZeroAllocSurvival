@@ -25,22 +25,28 @@ namespace ZeroAllocSurvival.Presentation
         private void WarmupFrameworkInternals()
         {
             _pointer ??= new PointerEventData(eventSystem);
-            ExecuteEvents.ExecuteHierarchy(gameObject, _pointer, ExecuteEvents.pointerDownHandler);
-            ExecuteEvents.ExecuteHierarchy(gameObject, _pointer, ExecuteEvents.pointerUpHandler);
-            ExecuteEvents.ExecuteHierarchy(gameObject, _pointer, ExecuteEvents.pointerClickHandler);
             RectTransformUtility.CalculateRelativeRectTransformBounds(gameObject.transform);
-            var handlers = ListPool<IEventSystemHandler>.Get();
-            var components = ListPool<Component>.Get();
-            m_RaycastResultCache = new List<RaycastResult>(16);
-            for (var i = 0; i < 16; i++)
+            var handlers = new List<List<IEventSystemHandler>>();
+            var components = new List<List<Component>>();
+            m_RaycastResultCache = new List<RaycastResult>(9);
+            for (var i = 0; i < 3; i++)
             {
-                handlers.Add(new EventSystemHandler());
-                components.Add(this);
-                m_RaycastResultCache.Add(default);
+                var handler = ListPool<IEventSystemHandler>.Get();
+                var component = ListPool<Component>.Get();
+                for (var j = 0; j < 3; j++)
+                {
+                    handler.Add(new EventSystemHandler());
+                    component.Add(this);
+                    m_RaycastResultCache.Add(default);
+                }
+
+                handlers.Add(handler);
+                components.Add(component);
             }
 
-            ListPool<IEventSystemHandler>.Release(handlers);
-            ListPool<Component>.Release(components);
+            handlers.ForEach(ListPool<IEventSystemHandler>.Release);
+            components.ForEach(ListPool<Component>.Release);
+
             m_RaycastResultCache.Sort(static (_, _) => 0);
             m_RaycastResultCache.Clear();
         }
