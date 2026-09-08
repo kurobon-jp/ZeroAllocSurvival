@@ -27,6 +27,11 @@ namespace ZeroAllocSurvival.Presentation
         protected override void Awake()
         {
             _canvas = GetComponent<Canvas>();
+            var pointer = new PointerEventData(EventSystem.current);
+            foreach (var target in targets)
+            {
+                ExecuteEvents.ExecuteHierarchy(target.gameObject, pointer, ExecuteEvents.pointerDownHandler);
+            }
         }
 
         public override void Raycast(PointerEventData eventData, List<RaycastResult> resultAppendList)
